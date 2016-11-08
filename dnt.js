@@ -19,6 +19,7 @@ load("${CWD}/lib/mapSkill.js");
 load("${CWD}/lib/fillAltSkills.js");
 load("${CWD}/lib/fillSkillLevels.js");
 load("${CWD}/lib/removeUnrelatedAltSkills.js");
+load("${CWD}/lib/fetchWeapons.js");
 
 // fields
 var config = JSON.parse(readFully("${CWD}/config.json"));
