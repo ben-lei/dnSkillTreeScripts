@@ -12,12 +12,13 @@ var CWD = System.getProperty("dncli.cwd");
 // extra imports
 load("${CWD}/lib/higherOrderHelpers.js");
 load("${CWD}/lib/aggregateMessages.js");
-load("${CWD}/lib/createSkillJsons.js");
+load("${CWD}/lib/createJobListJson.js");
 load("${CWD}/lib/createSkillJsons.js");
 load("${CWD}/lib/processSkillTree.js");
 load("${CWD}/lib/mapSkill.js");
 load("${CWD}/lib/fillAltSkills.js");
 load("${CWD}/lib/fillSkillLevels.js");
+load("${CWD}/lib/removeUnrelatedAltSkills.js");
 
 // fields
 var config = JSON.parse(readFully("${CWD}/config.json"));
@@ -69,6 +70,6 @@ var write = function (path, filename, json) {
 var process = function () {
   var connection = getConnection();
 
-  createSkillJsons(connection);
+  createJobListJson(connection);
   createSkillJsons(connection);
 };
