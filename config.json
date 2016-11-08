@@ -1,0 +1,7 @@
+{
+  "output": {
+    "jobs": "./out",
+    "skilltrees": "./out/skills"
+  },
+  "levelCap": 93
+}
