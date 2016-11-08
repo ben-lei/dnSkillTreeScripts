@@ -1,4 +1,4 @@
-SELECT DISTINCT w._EquipType, m.ID
+SELECT DISTINCT w._EquipType, m.ID as _NameID
 FROM item i
 JOIN weapon w
 	ON i.ID = w.ID
