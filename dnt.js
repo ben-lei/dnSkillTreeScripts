@@ -20,6 +20,8 @@ load("${CWD}/lib/fillAltSkills.js");
 load("${CWD}/lib/fillSkillLevels.js");
 load("${CWD}/lib/removeUnrelatedAltSkills.js");
 load("${CWD}/lib/fetchWeapons.js");
+load("${CWD}/lib/fetchTechableSkills.js");
+load("${CWD}/lib/fetchCrests.js");
 
 // fields
 var config = JSON.parse(readFully("${CWD}/config.json"));
