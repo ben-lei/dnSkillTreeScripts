@@ -1,9 +1,9 @@
-SELECT (j._JobNumber + t._AwakenForceLevel) as _JobNumber,
+SELECT (j._JobNumber + t._AwakenForceLevel) as _JobIndex,
+    j._JobNumber,
 --    j.ID as _JobID,
     s.ID as _SkillID,
     s._NameID,
     s._IconImageIndex,
-    s._NeedJob,
     s._NeedWeaponType1,
     s._NeedWeaponType2,
     s._MaxLevel, -- max skill level
