@@ -13,8 +13,8 @@ var CWD = System.getProperty("dncli.cwd");
 load("${CWD}/lib/higherOrderHelpers.js");
 load("${CWD}/lib/aggregateMessages.js");
 load("${CWD}/lib/createJobListJson.js");
-load("${CWD}/lib/createSkillJsons.js");
-load("${CWD}/lib/processSkillTree.js");
+load("${CWD}/lib/createSkillPageJsons.js");
+load("${CWD}/lib/fetchSkillTree.js");
 load("${CWD}/lib/mapSkill.js");
 load("${CWD}/lib/fillAltSkills.js");
 load("${CWD}/lib/fillSkillLevels.js");
@@ -74,5 +74,5 @@ var process = function () {
   var connection = getConnection();
 
   createJobListJson(connection);
-  createSkillJsons(connection);
+  createSkillPageJsons(connection);
 };
