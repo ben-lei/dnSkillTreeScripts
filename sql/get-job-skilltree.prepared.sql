@@ -24,7 +24,8 @@ SELECT (j._JobNumber + t._AwakenForceLevel) as _JobIndex,
     t._NeedParentSkillLevel2,
     t._ParentSkillID3,
     t._NeedParentSkillLevel3,
-    t._ChangeSkill
+    t._ChangeSkill,
+    t._TreeSkill
 FROM skilltree t
     JOIN skill s
         ON (t._SkillTableID = s.ID)

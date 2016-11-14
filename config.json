@@ -1,7 +1,7 @@
 {
   "output": {
-    "jobs": "./out",
-    "skilltrees": "./out/skilltrees"
+    "jobs": "/home/blei/static/ext",
+    "skilltrees": "/home/blei/static/ext"
   },
   "levelCap": 93
 }
