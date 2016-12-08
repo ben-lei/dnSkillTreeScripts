@@ -1,7 +1,7 @@
 {
   "output": {
-    "jobs": "/home/blei/static/ext",
-    "skilltrees": "/home/blei/static/ext"
+    "jobs": "/home/blei/mnt/usr/share/nginx/html/ext",
+    "skilltrees": "/home/blei/mnt/usr/share/nginx/html/ext"
   },
   "levelCap": 93
 }
