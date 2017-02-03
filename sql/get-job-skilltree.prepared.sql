@@ -7,6 +7,7 @@ SELECT (j._JobNumber + t._AwakenForceLevel) as _JobIndex,
     s._NeedWeaponType1,
     s._NeedWeaponType2,
     s._MaxLevel, -- max skill level
+    s._SPMaxLevel,
     s._SkillType,
     s._DurationType, -- instant, buff, debuff, ex
     s._Element,
