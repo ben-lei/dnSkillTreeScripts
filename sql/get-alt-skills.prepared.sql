@@ -5,8 +5,8 @@ SELECT
     s._SkillType,
     s._DurationType, -- instant, buff, debuff, ex
     s._Element,
-    s._GlobalCoolTimePvP,
-    s._GlobalCoolTimePvE
+    FLOOR(s._GlobalCoolTimePvP / 1000) as _GlobalCoolTimePvP,
+    FLOOR(s._GlobalCoolTimePvE / 1000) as _GlobalCoolTimePvE
 FROM skill s
   JOIN job j
     ON j.ID = s._NeedJob
