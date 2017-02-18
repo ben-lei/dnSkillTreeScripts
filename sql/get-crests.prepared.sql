@@ -9,3 +9,7 @@ FROM
 WHERE i._DescriptionID != 1000098590
         AND i._Rank = 3
         AND i._NeedJobClass IN (? , ?, ?)
+GROUP BY
+    g._SkillID,
+    i._DescriptionID,
+    i._DescriptionIDParam
