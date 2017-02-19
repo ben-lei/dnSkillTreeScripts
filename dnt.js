@@ -22,6 +22,7 @@ load("${CWD}/lib/removeUnrelatedSkills.js");
 load("${CWD}/lib/fetchWeapons.js");
 load("${CWD}/lib/fetchTechableSkills.js");
 load("${CWD}/lib/fetchCrests.js");
+load("${CWD}/lib/getLevelCap.js");
 
 // fields
 var config = JSON.parse(readFully("${CWD}/config.json"));
