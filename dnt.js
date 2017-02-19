@@ -74,6 +74,7 @@ var write = function (path, filename, json) {
 var process = function () {
   var connection = getConnection();
 
-  createJobListJson(connection);
-  createSkillPageJsons(connection);
+  var levelCap = getLevelCap(connection);
+  createJobListJson(connection, levelCap);
+  createSkillPageJsons(connection, levelCap);
 };

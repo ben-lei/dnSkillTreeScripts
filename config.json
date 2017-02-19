@@ -2,6 +2,5 @@
   "output": {
     "jobs": "/home/blei/mnt/usr/share/nginx/html/ext",
     "skilltrees": "/home/blei/mnt/usr/share/nginx/html/ext"
-  },
-  "levelCap": 93
+  }
 }
