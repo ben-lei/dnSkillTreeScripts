@@ -23,6 +23,7 @@ load("${CWD}/lib/fetchWeapons.js");
 load("${CWD}/lib/fetchTechableSkills.js");
 load("${CWD}/lib/fetchCrests.js");
 load("${CWD}/lib/getLevelCap.js");
+load("${CWD}/lib/createLevelCapFile.js");
 
 // fields
 var config = JSON.parse(readFully("${CWD}/config.json"));
@@ -75,6 +76,9 @@ var process = function () {
   var connection = getConnection();
 
   var levelCap = getLevelCap(connection);
-  createJobListJson(connection, levelCap);
+
+  createLevelCapFile(levelCap);
+
+  createJobListJson(connection);
   createSkillPageJsons(connection, levelCap);
 };
