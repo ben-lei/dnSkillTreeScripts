@@ -1,5 +1,5 @@
 const REGEX = {
-  dnt: /\\(skilltable_character.*|skillleveltable_character.*|skilltreetable|jobtable|playerleveltable|itemtable.*|glyphskilltable|weapontable|potentialtable_cash|charmitemtable.*)\.dnt$/i,
+  dnt: /.*\.dnt$/i,
   jobicon: /^\\resource\\ui\\mainbar\\jobicon.*/i,
   skillicon: /^\\resource\\ui\\mainbar\\skillicon.*/i,
   uistring: /^\\resource\\uistring\\uistring\.xml$/i,
