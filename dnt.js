@@ -1,35 +1,37 @@
 // imports
-var System = java.lang.System;
-var DriverManager = java.sql.DriverManager;
-var FileOutputStream = java.io.FileOutputStream;
-var File = java.io.File;
-var StandardCharsets = java.nio.charset.StandardCharsets;
-var HashSet = java.util.HashSet;
+const System = java.lang.System;
+const DriverManager = java.sql.DriverManager;
+const FileOutputStream = java.io.FileOutputStream;
+const File = java.io.File;
+const StandardCharsets = java.nio.charset.StandardCharsets;
+const HashSet = java.util.HashSet;
 
 // necessary var
-var CWD = System.getProperty("dncli.cwd");
+const CWD = System.getProperty("dncli.cwd");
 
 // extra imports
-load("${CWD}/lib/higherOrderHelpers.js");
-load("${CWD}/lib/aggregateMessages.js");
-load("${CWD}/lib/createJobListJson.js");
-load("${CWD}/lib/createSkillPageJsons.js");
-load("${CWD}/lib/fetchSkillTree.js");
-load("${CWD}/lib/mapSkill.js");
-load("${CWD}/lib/fillAltSkills.js");
-load("${CWD}/lib/fillSkillLevels.js");
-load("${CWD}/lib/removeUnrelatedSkills.js");
-load("${CWD}/lib/fetchWeapons.js");
-load("${CWD}/lib/fetchTechableSkills.js");
-load("${CWD}/lib/fetchCrests.js");
-load("${CWD}/lib/getLevelCap.js");
-load("${CWD}/lib/createLevelCapFile.js");
+const libFiles = new File(CWD, "/dnt/lib").listFiles();
+const sqlFiles = new File(CWD, "/dnt/sql").listFiles();
+const sqls = {};
+
+for (let i = 0; i < libFiles.length; i++) {
+  if (libFiles[i].isFile()) {
+    load(libFiles[i].getAbsolutePath());
+  }
+}
+
+for (let i = 0; i < sqlFiles; i++) {
+  if (sqlFiles[i].isFile()) {
+    sqls[sqlFiles[i].getName()] = readFully(sqlFiles[i].getAbsolutePath());
+  }
+}
 
 // fields
-var config = JSON.parse(readFully("${CWD}/config.json"));
-var connection;
+const config = JSON.parse(readFully("${CWD}/config.json"));
+let connection;
 
-var normalizeName = function (name) {
+
+const normalizeName = function (name) {
   if (name == 'uistring') {
     return 'message';
   }
@@ -37,7 +39,7 @@ var normalizeName = function (name) {
   return name.substring(0, name.indexOf('table'));
 };
 
-var getConnection = function () {
+const getConnection = function () {
   if (connection) {
     return connection;
   }
@@ -55,27 +57,26 @@ var getConnection = function () {
 };
 
 
-var close = function () {
-  var connection = getConnection();
+const close = function () {
+  const connection = getConnection();
   connection.close();
 };
 
 
-var write = function (path, filename, json) {
-  var output = new File(path);
+const write = function (path, filename, json) {
+  const output = new File(path);
   if (!output.exists()) {
     output.mkdirs();
   }
 
-  var out = new FileOutputStream(new File(output, filename + ".json"));
+  const out = new FileOutputStream(new File(output, `${filename}.json`));
   out.write(JSON.stringify(json).getBytes(StandardCharsets.UTF_8));
   out.close();
 };
 
-var process = function () {
-  var connection = getConnection();
-
-  var levelCap = getLevelCap(connection);
+const process = function () {
+  const connection = getConnection();
+  const levelCap = getLevelCap(connection);
 
   createLevelCapFile(levelCap);
 
