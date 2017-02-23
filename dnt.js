@@ -30,14 +30,14 @@ function getConnection() {
     return connection;
   }
 
-  // connection = DriverManager.getConnection('jdbc:mysql://localhost/maze?'
-  //     + 'user=root&'
-  //     + 'password=root&'
-  //     + 'useUnicode=true&'
-  //     + 'characterEncoding=utf-8&'
-  //     + 'useSSL=false');
+  connection = DriverManager.getConnection('jdbc:mysql://localhost/maze?'
+      + 'user=root&'
+      + 'password=root&'
+      + 'useUnicode=true&'
+      + 'characterEncoding=utf-8&'
+      + 'useSSL=false');
 
-  connection = DriverManager.getConnection('jdbc:h2:mem:test;MODE=MYSQL;IGNORECASE=TRUE');
+  // connection = DriverManager.getConnection('jdbc:h2:mem:test;MODE=MYSQL;IGNORECASE=TRUE');
 
   return connection;
 }

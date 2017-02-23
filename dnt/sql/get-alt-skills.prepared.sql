@@ -8,7 +8,9 @@ SELECT
     FLOOR(s._GlobalCoolTimePvP / 1000) as _GlobalCoolTimePvP,
     FLOOR(s._GlobalCoolTimePvE / 1000) as _GlobalCoolTimePvE
 FROM skill s
+  JOIN skilltree t
+    ON t._SkillTableID = s.ID
   JOIN job j
     ON j.ID = s._NeedJob
 WHERE s.ID IN (?)
-	AND s._NeedJob IN (?, ?, ?)
+	AND t._SkillNeedJobID IN (?, ?, ?)
