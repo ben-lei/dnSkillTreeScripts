@@ -1,31 +1,36 @@
-var GET_JOB_SKILLTREE_PREPARED = readFully("${CWD}/sql/get-job-skilltree.prepared.sql");
+/**
+ * Fetches skill tree data
+ * @param connection the jdbc connection
+ * @param job the job object
+ * @param ext the additional information for job (techs, crests)
+ */
+function fetchSkillTree(connection, job, ext) {
+  print("Fetching skill tree of ${job.ascendancies[2].slug}");
 
-var fetchSkillTree = function (connection, job, ext) {
-  print("Fetching skill tree of " + job.ascendancies[2].slug);
-
-  var pstmt = connection.prepareStatement(GET_JOB_SKILLTREE_PREPARED);
+  const pstmt = connection.prepareStatement(sqls['get-job-skilltree.prepared.sql']);
   pstmt.setInt(1, job.ascendancies[0].id);
   pstmt.setInt(2, job.ascendancies[1].id);
   pstmt.setInt(3, job.ascendancies[2].id);
 
-  var rs = pstmt.executeQuery(),
-      skillIds = [],
-      altSkillIds = [];
+  const rs = pstmt.executeQuery();
+
+  let skillIds = [];
+  let altSkillIds = [];
 
   while (rs.next()) {
-    var jobIndex = rs.getInt('_JobIndex'),
-        treeSlotIndex = rs.getInt('_TreeSlotIndex'),
-        base = rs.getInt('_BaseSkillID'),
-        group = rs.getInt('_SkillGroup'),
-        weapons = [rs.getInt('_NeedWeaponType1'), rs.getInt('_NeedWeaponType2')].filter(notNeg1),
-        parents = [
-          {id: rs.getInt('_ParentSkillID1'), level: rs.getInt('_NeedParentSkillLevel1')},
-          {id: rs.getInt('_ParentSkillID2'), level: rs.getInt('_NeedParentSkillLevel2')},
-          {id: rs.getInt('_ParentSkillID3'), level: rs.getInt('_NeedParentSkillLevel3')}
-        ].filter(idNot0),
-        alts = rs.getString('_ChangeSkill').split(';').filter(self).filter(not0).map(toInt),
-        related = rs.getString('_TreeSkill').split(';').filter(self).filter(not0).map(toInt),
-        skill = mapSkill(rs);
+    const jobIndex = rs.getInt('_JobIndex');
+    const treeSlotIndex = rs.getInt('_TreeSlotIndex');
+    const base = rs.getInt('_BaseSkillID');
+    const group = rs.getInt('_SkillGroup');
+    const weapons = [rs.getInt('_NeedWeaponType1'), rs.getInt('_NeedWeaponType2')].filter(notNeg1);
+    const parents = [
+      { id: rs.getInt('_ParentSkillID1'), level: rs.getInt('_NeedParentSkillLevel1') },
+      { id: rs.getInt('_ParentSkillID2'), level: rs.getInt('_NeedParentSkillLevel2') },
+      { id: rs.getInt('_ParentSkillID3'), level: rs.getInt('_NeedParentSkillLevel3') },
+    ].filter(idNot0);
+    const alts = rs.getString('_ChangeSkill').split(';').filter(self).filter(not0).map(toInt);
+    const related = rs.getString('_TreeSkill').split(';').filter(self).filter(not0).map(toInt);
+    const skill = mapSkill(rs);
 
     skill.maxLevel = rs.getInt('_MaxLevel');
     skill.spMaxLevel = rs.getInt('_SPMaxLevel');
@@ -84,13 +89,12 @@ var fetchSkillTree = function (connection, job, ext) {
     }
 
     // add weapons for this job
-    for (var type in weapons) {
-      type = weapons[type];
+    weapons.forEach(function (type) {
       if (!job.weapons[type]) {
         job.weapons[type] = ext.weapons[type];
         job.messages.push(ext.weapons[type]);
       }
-    }
+    });
 
     // setup skill tree
     if (!job.tree[jobIndex]) {
@@ -112,20 +116,20 @@ var fetchSkillTree = function (connection, job, ext) {
 
   fillSkillLevels(connection, job, job, skillIds);
 
-  var crestData = fetchCrests(connection, job);
+  const crestData = fetchCrests(connection, job);
 
   job.crests = crestData.crests;
   job.messages = job.messages.concat(crestData.messages);
   job.messages = aggregateMessages(connection, job.messages);
 
   // remove useless duplicate text from crests
-  for (var i in crestData.messages) {
-    var messageId = crestData.messages[i];
-    var message = job.messages[messageId];
+  for (let i in crestData.messages) {
+    const messageId = crestData.messages[i];
+    const message = job.messages[messageId];
 
-    var lastIndex = message.lastIndexOf('\\n\\n');
+    const lastIndex = message.lastIndexOf('\\n\\n');
     if (lastIndex !== -1) {
       job.messages[messageId] = message.substring(lastIndex + 4);
     }
   }
-};
+}

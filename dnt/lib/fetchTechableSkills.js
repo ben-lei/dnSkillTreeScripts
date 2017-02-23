@@ -1,22 +1,24 @@
 /**
  * Fills out the weapon info
+ *
+ * @param connection the jdbc connection
+ * @returns []
  */
-
-var GET_TECHS = readFully("${CWD}/sql/get-techable-skills.sql");
-
-var fetchTechableSkills = function (connection) {
-  print("Fetching all techable skills.");
+function fetchTechableSkills(connection) {
+  print('Fetching all techable skills.');
   print();
 
-  var stmt = connection.createStatement();
-  var rs = stmt.executeQuery(GET_TECHS);
-  var techs = [];
+  const stmt = connection.createStatement();
+  const rs = stmt.executeQuery(sqls['get-techable-skills.sql']);
+  const techs = [];
 
   while (rs.next()) {
-    var id = rs.getInt('_SkillID');
-    var type = rs.getInt('_ExchangeType');
+    const id = rs.getInt('_SkillID');
+    const type = rs.getInt('_ExchangeType');
     techs[id] = techs[id] ? techs[id].concat(type) : [type];
   }
 
+  stmt.close();
+
   return techs;
-};
+}

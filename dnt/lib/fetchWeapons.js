@@ -1,20 +1,22 @@
 /**
  * Fills out the weapon info
+ *
+ * @param connection the jdbc connection
+ * @returns []
  */
-
-var GET_WEAPON_LIST = readFully("${CWD}/sql/get-weapons.sql");
-
-var fetchWeapons = function (connection) {
-  print("Fetching all weapons.");
+function fetchWeapons(connection) {
+  print('Fetching all weapons.');
   print();
 
-  var stmt = connection.createStatement();
-  var rs = stmt.executeQuery(GET_WEAPON_LIST);
-  var weapons = [];
+  const stmt = connection.createStatement();
+  const rs = stmt.executeQuery(sqls['get-weapons.sql']);
+  const weapons = [];
 
   while (rs.next()) {
     weapons[rs.getInt('_EquipType')] = rs.getInt('_NameID');
   }
 
+  stmt.close();
+
   return weapons;
-};
+}

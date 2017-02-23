@@ -1,15 +1,19 @@
 /**
  * Helps remove alt skills that aren't relevant to this skill tree.
- * @param skills
- * @param key
+ *
+ * @param skills the list of skill data
+ * @param key the field of the skill data to filter out
  */
-var removeUnrelatedSkills = function (skills, key) {
-  for (var id in skills) {
-    var skill = skills[id];
-    if (skill[key]) {
-      skill[key] = skill[key].filter(function (id) {
-        return skills[id];
-      });
-    }
-  }
-};
+function removeUnrelatedSkills(skills, key) {
+
+  Object.keys(skills)
+    .forEach(function (id) {
+      const skill = skills[id];
+
+      if (skill[key]) {
+        skill[key] = skill[key].filter(function (keyId) {
+          return skills[keyId];
+        });
+      }
+    });
+}

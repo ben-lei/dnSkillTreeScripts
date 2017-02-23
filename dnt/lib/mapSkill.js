@@ -1,10 +1,12 @@
 /**
  * Given a result set that is assumed to be from a skill table,
  * will fill out a skill object and return it.
+ *
+ * @param rs the jdbc result set
+ * @returns the skill data
  */
-
-var mapSkill = function (rs) {
-  var skill = {
+function mapSkill(rs) {
+  const skill = {
     id: rs.getInt('_SkillID'),
     name: rs.getInt('_NameID'),
     type: rs.getInt('_SkillType'),
@@ -19,12 +21,12 @@ var mapSkill = function (rs) {
     params: [[], []]
   };
 
-  var globalCdPvE = rs.getInt('_GlobalCoolTimePvE'),
-      globalCdPvP = rs.getInt('_GlobalCoolTimePvP');
+  const globalCdPvE = rs.getInt('_GlobalCoolTimePvE');
+  const globalCdPvP = rs.getInt('_GlobalCoolTimePvP');
 
   if (globalCdPvE) {
     skill.cdOverride = [globalCdPvE, globalCdPvP];
   }
 
   return skill;
-};
+}

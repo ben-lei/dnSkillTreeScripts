@@ -1,31 +1,29 @@
 /**
  * This function gets all skills of individual jobs + their skill tree,
  * and writes it to a given output directory.
+ *
+ * @param connection the jdbc connection
+ * @param levelCap the level cap
  */
-
-var GET_JOB_LIST = readFully("${CWD}/sql/get-job-list.sql");
-
-var createSkillPageJsons = function (connection, levelCap) {
-  print("Creating skill page related jsons.");
+function createSkillPageJsons(connection, levelCap) {
+  print('Creating skill page related jsons.');
   print();
 
-  var stmt = connection.createStatement(),
-      rs = stmt.executeQuery(GET_JOB_LIST),
-      maxSP;
+  const stmt = connection.createStatement();
+  const rs = stmt.executeQuery(sqls['get-job-list.sql']);
+  let maxSP = 147 + (levelCap - 50) * 2;
 
   if (levelCap < 51) {
     maxSP = (levelCap - 1) * 3;
-  } else {
-    maxSP = 147 + (levelCap - 50) * 2;
   }
 
-  var ext = {
+  const ext = {
     weapons: fetchWeapons(connection),
     techs: fetchTechableSkills(connection)
   };
 
   while (rs.next()) {
-    var job = {
+    const job = {
       ascendancies: [
         {
           id: rs.getInt('_Basic'),
@@ -55,12 +53,12 @@ var createSkillPageJsons = function (connection, levelCap) {
       messages: [],
       skills: {},
       weapons: {},
-      crests: {}
+      crests: {},
     };
 
     fetchSkillTree(connection, job, ext);
 
-    var slug = job.ascendancies[2].slug;
+    const slug = job.ascendancies[2].slug;
 
     // remove id from each job.ascendancies (useless)
     delete job.ascendancies[0].id;
@@ -73,5 +71,5 @@ var createSkillPageJsons = function (connection, levelCap) {
 
   stmt.close();
 
-  print("Finished creating skill jsons.");
-};
+  print('Finished creating skill jsons.');
+}

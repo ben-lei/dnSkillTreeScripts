@@ -4,77 +4,63 @@ const DriverManager = java.sql.DriverManager;
 const FileOutputStream = java.io.FileOutputStream;
 const File = java.io.File;
 const StandardCharsets = java.nio.charset.StandardCharsets;
-const HashSet = java.util.HashSet;
 
 // necessary var
-const CWD = System.getProperty("dncli.cwd");
-
-// extra imports
-const libFiles = new File(CWD, "/dnt/lib").listFiles();
-const sqlFiles = new File(CWD, "/dnt/sql").listFiles();
-const sqls = {};
-
-for (let i = 0; i < libFiles.length; i++) {
-  if (libFiles[i].isFile()) {
-    load(libFiles[i].getAbsolutePath());
-  }
-}
-
-for (let i = 0; i < sqlFiles; i++) {
-  if (sqlFiles[i].isFile()) {
-    sqls[sqlFiles[i].getName()] = readFully(sqlFiles[i].getAbsolutePath());
-  }
-}
+const CWD = System.getProperty('dncli.cwd');
 
 // fields
-const config = JSON.parse(readFully("${CWD}/config.json"));
+const config = JSON.parse(readFully(new File(CWD, 'config.json')));
 let connection;
 
-
-const normalizeName = function (name) {
+function normalizeName(name) {
   if (name == 'uistring') {
     return 'message';
   }
 
-  return name.substring(0, name.indexOf('table'));
-};
+  name = name.substring(0, name.indexOf('table'));
+  if (name.indexOf('_') !== -1) {
+    name = name.substring(0, name.indexOf('_'));
+  }
 
-const getConnection = function () {
+  return name;
+}
+
+function getConnection() {
   if (connection) {
     return connection;
   }
 
-  connection = DriverManager.getConnection("jdbc:mysql://localhost/maze?"
-      + "user=root&"
-      + "password=root&"
-      + "useUnicode=true&"
-      + "characterEncoding=utf-8&"
-      + "useSSL=false");
+  // connection = DriverManager.getConnection('jdbc:mysql://localhost/maze?'
+  //     + 'user=root&'
+  //     + 'password=root&'
+  //     + 'useUnicode=true&'
+  //     + 'characterEncoding=utf-8&'
+  //     + 'useSSL=false');
 
-  // connection = DriverManager.getConnection("jdbc:h2:mem:test;MODE=MYSQL;IGNORECASE=TRUE");
+  connection = DriverManager.getConnection('jdbc:h2:mem:test;MODE=MYSQL;IGNORECASE=TRUE');
 
   return connection;
-};
+}
 
 
-const close = function () {
+function close() {
   const connection = getConnection();
   connection.close();
-};
+}
 
 
-const write = function (path, filename, json) {
+function write(path, filename, json) {
   const output = new File(path);
   if (!output.exists()) {
     output.mkdirs();
   }
 
-  const out = new FileOutputStream(new File(output, `${filename}.json`));
+  const out = new FileOutputStream(new File(output, "${filename}.json"));
   out.write(JSON.stringify(json).getBytes(StandardCharsets.UTF_8));
   out.close();
-};
+}
 
-const process = function () {
+function process() {
   const connection = getConnection();
   const levelCap = getLevelCap(connection);
 
@@ -82,4 +68,21 @@ const process = function () {
 
   createJobListJson(connection);
   createSkillPageJsons(connection, levelCap);
-};
+}
+
+// loading other stuff
+const libFiles = new File(CWD, '/dnt/lib').listFiles();
+const sqlFiles = new File(CWD, '/dnt/sql').listFiles();
+const sqls = {};
+
+for (let i = 0; i < libFiles.length; i++) {
+  if (libFiles[i].isFile()) {
+    load(libFiles[i].getAbsoluteFile());
+  }
+}
+
+for (let i = 0; i < sqlFiles.length; i++) {
+  if (sqlFiles[i].isFile()) {
+    sqls[sqlFiles[i].getName()] = readFully(sqlFiles[i].getAbsoluteFile());
+  }
+}

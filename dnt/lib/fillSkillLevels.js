@@ -1,25 +1,27 @@
 /**
  * Gets all the skill levels of the skill ids and fills it into the
  * data object.
+ *
+ * @param connection the jdbc connection
+ * @param job the job object
+ * @param data the skilltree's data
+ * @param skillIds the list of skill ids to look up
  */
+function fillSkillLevels(connection, job, data, skillIds) {
+  print("Filling up levels of skills for ${job.ascendancies[2].slug}");
 
-var GET_JOB_SKILLLEVEL_PREPARED = readFully("${CWD}/sql/get-job-skilllevel.prepared.sql");
-
-var fillSkillLevels = function (connection, job, data, skillIds) {
-  print("Filling up levels of skills for " + job.ascendancies[2].slug);
-
-  var skillIdsStr = skillIds.join(','),
-      query = GET_JOB_SKILLLEVEL_PREPARED.replace('?', skillIdsStr),
-      stmt = connection.createStatement(),
-      rs = stmt.executeQuery(query);
+  const skillIdsStr = skillIds.join(',');
+  const query = sqls['get-job-skilllevel.prepared.sql'].replace('?', skillIdsStr);
+  const stmt = connection.createStatement();
+  const rs = stmt.executeQuery(query);
 
   while (rs.next()) {
-    var skillId = rs.getInt('_SkillID'),
-        apply = rs.getInt('_ApplyType'),
-        level = rs.getInt('_SkillLevel'),
-        params = rs.getString('_SkillExplanationIDParam'),
-        paramsMessageIds = getParamMessageIds(params),
-        skill = data.skills[skillId];
+    const skillId = rs.getInt('_SkillID');
+    const apply = rs.getInt('_ApplyType');
+    const level = rs.getInt('_SkillLevel');
+    const params = rs.getString('_SkillExplanationIDParam');
+    const paramsMessageIds = getParamMessageIds(params);
+    const skill = data.skills[skillId];
 
     skill.cd[apply][level] = rs.getInt('_DelayTime');
     skill.hp[apply][level] = rs.getInt('_DecreaseHP');
@@ -50,4 +52,4 @@ var fillSkillLevels = function (connection, job, data, skillIds) {
   }
 
   stmt.close();
-};
+}
