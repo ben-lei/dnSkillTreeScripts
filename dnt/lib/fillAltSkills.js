@@ -53,6 +53,7 @@ function fillAltSkills(connection, job, data, altSkillIds) {
       }
 
       if (!found) {
+        print("Alt Skill ${altSkillId} was determined to not be for this ascendancy.");
         skill = null;
       }
     }
