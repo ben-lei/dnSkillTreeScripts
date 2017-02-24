@@ -2,7 +2,8 @@ SELECT
     LOWER(_EnglishName) AS _EnglishName,
     m._Message AS JobName,
     _JobIcon,
-    _BaseClass
+    _BaseClass,
+    _AwakeningIcon as _Awakened
 FROM
     job j
         JOIN

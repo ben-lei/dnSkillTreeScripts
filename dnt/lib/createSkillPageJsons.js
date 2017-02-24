@@ -48,6 +48,7 @@ function createSkillPageJsons(connection, levelCap) {
         },
       ],
 
+      awakened: rs.getInt('_Awakened'),
       sp: maxSP,
       tree: [],
       messages: [],

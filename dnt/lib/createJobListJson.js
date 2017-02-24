@@ -22,7 +22,8 @@ function createJobListJson(connection) {
     data[base].push({
       name: rs.getString('JobName'),
       icon: rs.getInt('_JobIcon'),
-      slug: slug
+      slug: slug,
+      awakened: rs.getInt('_Awakened'),
     });
   }
 
