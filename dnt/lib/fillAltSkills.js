@@ -29,6 +29,12 @@ function fillAltSkills(connection, job, data, altSkillIds) {
     rs.next(); // get self
 
     let skill = mapSkill(rs);
+
+    if (skill.id != altSkillId) { // how'd this pop up here?
+      print("Could not find ${altSkillId} in database for this class.");
+      return;
+    }
+
     const needJob = rs.getInt('_NeedJob');
 
     if (needJob != job.ascendancies[2].id) {
