@@ -7,7 +7,9 @@ const REGEX = {
   skilltree: /^\\resource\\ui\\skill\\.*\.dds/i,
 };
 
-const REGEX_KEYS = Object.keys(REGEX);
+const IGNORE_REGEX = {
+  dds: /(1_awaken|adept_e|classinfobg|elestra_awaken|jobicon_pvp|warlord|tree_.*)\.dds$/i,
+};
 
 function filter(pakFile) {
   for (let key in REGEX) {
@@ -15,7 +17,17 @@ function filter(pakFile) {
     const exists = pakFile.getCompressedSize() != 0 && pakFile.getSize() != 0;
 
     if (pathMatches && exists) {
-      return true;
+      let ignore = false;
+      for (let key2 in IGNORE_REGEX) {
+        if (IGNORE_REGEX[key2].test(pakFile.getPath())) {
+          ignore = true;
+          break;
+        }
+      }
+
+      if (!ignore) {
+        return true;
+      }
     }
   }
 
