@@ -8,7 +8,7 @@ const REGEX = {
 };
 
 const IGNORE_REGEX = {
-  dds: /(1_awaken|adept_e|classinfobg|elestra_awaken|jobicon_pvp|warlord|tree_.*)\.dds$/i,
+  dds: /(1_awaken|adepte|classinfobg|elestra_awaken|jobicon_pvp|warlord|tree_.*)\.dds$/i,
 };
 
 function filter(pakFile) {
