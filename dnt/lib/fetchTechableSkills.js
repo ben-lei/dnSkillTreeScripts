@@ -15,7 +15,9 @@ function fetchTechableSkills(connection) {
   while (rs.next()) {
     const id = rs.getInt('_SkillID');
     const type = rs.getInt('_ExchangeType');
-    techs[id] = techs[id] ? techs[id].concat(type) : [type];
+    const level = rs.getInt('_LevelLimit');
+    const data = { type: type, level: level };
+    techs[id] = techs[id] ? techs[id].concat(data) : [data];
   }
 
   stmt.close();
