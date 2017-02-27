@@ -78,7 +78,7 @@ function fetchSkillTree(connection, job, ext) {
     ];
 
     // add available techs of skill
-    if (ext.techs[skill.id]) {
+    if (ext.techs[skill.id] && skill.spMaxLevel) {
       skill.techs = ext.techs[skill.id];
     }
 
