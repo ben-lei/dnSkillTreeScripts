@@ -9,7 +9,7 @@ const StandardCharsets = java.nio.charset.StandardCharsets;
 const CWD = System.getProperty('dncli.cwd');
 
 // fields
-const config = JSON.parse(readFully(new File(CWD, 'config.json')));
+const config = JSON.parse(readFully(new File(System.getProperty('dncli.config'))));
 let connection;
 
 function normalizeName(name) {
