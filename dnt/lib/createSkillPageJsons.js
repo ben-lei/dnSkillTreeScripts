@@ -66,7 +66,7 @@ function createSkillPageJsons(connection, levelCap) {
     delete job.ascendancies[1].id;
     delete job.ascendancies[2].id;
 
-    write(config.output.skilltrees, slug, job);
+    writeJson(config.output.skilltrees, slug, job);
     print();
   }
 

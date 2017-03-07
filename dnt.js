@@ -30,12 +30,7 @@ function getConnection() {
     return connection;
   }
 
-  connection = DriverManager.getConnection('jdbc:mysql://localhost/maze?'
-      + 'user=root&'
-      + 'password=root&'
-      + 'useUnicode=true&'
-      + 'characterEncoding=utf-8&'
-      + 'useSSL=false');
+  connection = DriverManager.getConnection(config.jdbc);
 
   // connection = DriverManager.getConnection('jdbc:h2:mem:test;MODE=MYSQL;IGNORECASE=TRUE');
 
@@ -49,14 +44,19 @@ function close() {
 }
 
 
-function write(path, filename, json) {
+function writeJson(path, filename, data) {
+  write(path, "${filename}.json", JSON.stringify(data));
+}
+
+
+function write(path, filename, data) {
   const output = new File(path);
   if (!output.exists()) {
     output.mkdirs();
   }
 
-  const out = new FileOutputStream(new File(output, "${filename}.json"));
-  out.write(JSON.stringify(json).getBytes(StandardCharsets.UTF_8));
+  const out = new FileOutputStream(new File(output, filename));
+  out.write(data.getBytes(StandardCharsets.UTF_8));
   out.close();
 }
 

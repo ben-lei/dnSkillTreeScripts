@@ -29,7 +29,7 @@ function createJobListJson(connection) {
 
   stmt.close();
 
-  write(config.output.jobs, 'jobs', data);
+  writeJson(config.output.jobs, 'jobs', data);
 
   print();
 }
