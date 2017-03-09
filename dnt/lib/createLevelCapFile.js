@@ -8,5 +8,5 @@ function createLevelCapFile(levelCap) {
 
   var file = new File(config.output.level);
 
-  write(file.getAbsolutePath(), file.getName(), "${levelCap}");
+  write(file.getParentFile().getAbsolutePath(), file.getName(), "${levelCap}");
 }
