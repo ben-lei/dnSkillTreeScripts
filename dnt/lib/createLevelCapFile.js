@@ -5,5 +5,8 @@
  */
 function createLevelCapFile(levelCap) {
   print('Creating level cap json');
-  write(config.output.level, 'level.properties', "level=${levelCap}");
+
+  var file = new File(config.output.level);
+
+  write(file.getAbsolutePath(), file.getName(), "level=${levelCap}");
 }

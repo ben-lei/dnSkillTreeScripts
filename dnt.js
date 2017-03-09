@@ -64,7 +64,9 @@ function process() {
   const connection = getConnection();
   const levelCap = getLevelCap(connection);
 
-  createLevelCapFile(levelCap);
+  if (config.output.level) {
+    createLevelCapFile(levelCap);
+  }
 
   createJobListJson(connection);
   createSkillPageJsons(connection, levelCap);
