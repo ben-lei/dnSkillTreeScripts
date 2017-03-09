@@ -2,7 +2,7 @@
   "output": {
     "jobs": "/home/blei/mnt/usr/share/nginx/html/ext",
     "skilltrees": "/home/blei/mnt/usr/share/nginx/html/ext",
-    "level": "./conf/level.properties"
+    "level": "./conf/level"
   },
   "jdbc": "jdbc:mysql://localhost/maze?user=root&password=root&useUnicode=true&characterEncoding=utf-8&useSSL=false"
 }
