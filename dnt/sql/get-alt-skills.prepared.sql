@@ -11,6 +11,5 @@ SELECT
 FROM skill s
   JOIN job j
     ON j.ID = s._NeedJob
-WHERE s._NeedJob IN (?, ?, ?)
-  AND s.ID <= ?
-  ORDER BY s.ID DESC
+WHERE s.ID IN (?)
+	AND s._NeedJob IN (?, ?, ?)
