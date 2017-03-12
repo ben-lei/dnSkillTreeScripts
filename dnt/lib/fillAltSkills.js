@@ -9,7 +9,8 @@
  * @returns []
  */
 function fillAltSkills(connection, job, data, altSkillIds) {
-  print("Filling alt skills for ${job.ascendancies[2].slug}");
+  const startTime = System.currentTimeMillis();
+  print("    fillAltSkills(${job.ascendancies[2].slug}) - started");
 
   const altSkillIdsStr = altSkillIds.join(',');
   const query = sqls['get-alt-skills.prepared.sql'].replace('(?)', "(${altSkillIdsStr})");
@@ -32,6 +33,9 @@ function fillAltSkills(connection, job, data, altSkillIds) {
   }
 
   pstmt.close();
+
+  const durationTime = System.currentTimeMillis() - startTime;
+  print("    fillAltSkills(${job.ascendancies[2].slug}) - completed in ${durationTime} ms");
 
   return skillIds;
 }

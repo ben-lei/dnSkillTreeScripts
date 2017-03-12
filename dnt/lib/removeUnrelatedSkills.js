@@ -5,7 +5,6 @@
  * @param key the field of the skill data to filter out
  */
 function removeUnrelatedSkills(skills, key) {
-
   Object.keys(skills)
     .forEach(function (id) {
       const skill = skills[id];

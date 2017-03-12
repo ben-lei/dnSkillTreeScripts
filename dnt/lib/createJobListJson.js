@@ -5,7 +5,8 @@
  * @param connection the jdbc connection
  */
 function createJobListJson(connection) {
-  print('Creating job list json.');
+  const startTime = System.currentTimeMillis();
+  print('createJobListJson() - started');
 
   const stmt = connection.createStatement();
   const rs = stmt.executeQuery(sqls['get-jobs-tree.sql']);
@@ -31,5 +32,7 @@ function createJobListJson(connection) {
 
   writeJson(config.output.jobs, 'jobs', data);
 
+  const durationTime = System.currentTimeMillis() - startTime;
+  print("createJobListJson() - completed in ${durationTime} ms");
   print();
 }

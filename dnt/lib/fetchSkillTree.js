@@ -5,7 +5,8 @@
  * @param ext the additional information for job (techs, crests)
  */
 function fetchSkillTree(connection, job, ext) {
-  print("Fetching skill tree of ${job.ascendancies[2].slug}");
+  const startTime = System.currentTimeMillis();
+  print("  fetchSkillTree(${job.ascendancies[2].slug}) - started");
 
   const pstmt = connection.prepareStatement(sqls['get-job-skilltree.prepared.sql']);
   pstmt.setInt(1, job.ascendancies[0].id);
@@ -132,4 +133,7 @@ function fetchSkillTree(connection, job, ext) {
       job.messages[messageId] = message.substring(lastIndex + 4);
     }
   }
+
+  const durationTime = System.currentTimeMillis() - startTime;
+  print("  fetchSkillTree(${job.ascendancies[2].slug}) - completed in ${durationTime} ms");
 }

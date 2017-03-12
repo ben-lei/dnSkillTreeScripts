@@ -6,8 +6,9 @@
  * @param levelCap the level cap
  */
 function createSkillPageJsons(connection, levelCap) {
-  print('Creating skill page related jsons.');
-  print();
+  const startTime = System.currentTimeMillis();
+
+  print("createSkillPageJsons() - started\n");
 
   const stmt = connection.createStatement();
   const rs = stmt.executeQuery(sqls['get-job-list.sql']);
@@ -72,5 +73,6 @@ function createSkillPageJsons(connection, levelCap) {
 
   stmt.close();
 
-  print('Finished creating skill jsons.');
+  const durationTime = System.currentTimeMillis() - startTime;
+  print("createSkillPageJsons() - completed in ${durationTime} ms");
 }

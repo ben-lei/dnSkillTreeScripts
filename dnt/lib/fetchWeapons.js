@@ -5,8 +5,8 @@
  * @returns []
  */
 function fetchWeapons(connection) {
-  print('Fetching all weapons.');
-  print();
+  const startTime = System.currentTimeMillis();
+  print("  fetchWeapons() - started");
 
   const stmt = connection.createStatement();
   const rs = stmt.executeQuery(sqls['get-weapons.sql']);
@@ -18,5 +18,7 @@ function fetchWeapons(connection) {
 
   stmt.close();
 
+  const durationTime = System.currentTimeMillis() - startTime;
+  print("  fetchWeapons() - completed in ${durationTime} ms");
   return weapons;
 }

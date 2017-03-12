@@ -7,6 +7,9 @@
  * @returns {}
  */
 function aggregateMessages(connection, messageIds) {
+  const startTime = System.currentTimeMillis();
+  print('    aggregateMessages() - started');
+
   const messageIdsStr = messageIds.join(',');
   const query = sqls['get-messages.prepared.sql'].replace('?', messageIdsStr);
   const stmt = connection.createStatement();
@@ -19,5 +22,7 @@ function aggregateMessages(connection, messageIds) {
 
   stmt.close();
 
+  const durationTime = System.currentTimeMillis() - startTime;
+  print("    aggregateMessages() - completed in ${durationTime} ms");
   return messages;
 }

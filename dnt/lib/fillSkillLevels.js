@@ -8,7 +8,8 @@
  * @param skillIds the list of skill ids to look up
  */
 function fillSkillLevels(connection, job, data, skillIds) {
-  print("Filling up levels of skills for ${job.ascendancies[2].slug}");
+  const startTime = System.currentTimeMillis();
+  print("    fillSkillLevels(${job.ascendancies[2].slug}) - started");
 
   const skillIdsStr = skillIds.join(',');
   const query = sqls['get-job-skilllevel.prepared.sql'].replace('?', skillIdsStr);
@@ -52,4 +53,7 @@ function fillSkillLevels(connection, job, data, skillIds) {
   }
 
   stmt.close();
+
+  const durationTime = System.currentTimeMillis() - startTime;
+  print("    fillSkillLevels(${job.ascendancies[2].slug}) - completed in ${durationTime} ms");
 }

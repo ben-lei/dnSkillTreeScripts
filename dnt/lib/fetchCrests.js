@@ -6,7 +6,8 @@
  * @returns {{crests: {}, messages: []}}
  */
 function fetchCrests(connection, job) {
-  print("Fetching crests for ${job.ascendancies[2].slug}");
+  const startTime = System.currentTimeMillis();
+  print("    fetchCrests(${job.ascendancies[2].slug}) - started");
 
   const pstmt = connection.prepareStatement(sqls['get-crests.prepared.sql']);
   pstmt.setInt(1, job.ascendancies[0].id);
@@ -41,6 +42,9 @@ function fetchCrests(connection, job) {
   }
 
   pstmt.close();
+
+  const durationTime = System.currentTimeMillis() - startTime;
+  print("    fetchCrests(${job.ascendancies[2].slug}) - completed in ${durationTime} ms");
 
   return { crests: crests, messages: messages };
 }

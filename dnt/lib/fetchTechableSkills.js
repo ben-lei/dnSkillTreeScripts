@@ -5,8 +5,8 @@
  * @returns []
  */
 function fetchTechableSkills(connection) {
-  print('Fetching all techable skills.');
-  print();
+  const startTime = System.currentTimeMillis();
+  print("  fetchTechableSkills() - started");
 
   const stmt = connection.createStatement();
   const rs = stmt.executeQuery(sqls['get-techable-skills.sql']);
@@ -22,5 +22,7 @@ function fetchTechableSkills(connection) {
 
   stmt.close();
 
+  const durationTime = System.currentTimeMillis() - startTime;
+  print("  fetchTechableSkills() - completed in ${durationTime} ms\n");
   return techs;
 }
