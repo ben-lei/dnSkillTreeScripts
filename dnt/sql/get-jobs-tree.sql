@@ -3,7 +3,13 @@ SELECT
     m._Message AS JobName,
     _JobIcon,
     _BaseClass,
-    _AwakeningIcon as _Awakened
+    (
+		SELECT _AwakenForceLevel
+        FROM skilltree t
+        WHERE t._SkillNeedJobID = j.ID
+        ORDER BY t._AwakenForceLevel DESC
+        LIMIT 1
+	) as _Awakened
 FROM
     job j
         JOIN

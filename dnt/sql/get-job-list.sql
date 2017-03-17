@@ -13,8 +13,7 @@ SELECT
     m2._Message AS _FirstName,
     j._MaxSPJob0,
     j._MaxSPJob1,
-    j._MaxSPJob2,
-    j._AwakeningIcon as _Awakened
+    j._MaxSPJob2
 FROM
     job j
         JOIN
