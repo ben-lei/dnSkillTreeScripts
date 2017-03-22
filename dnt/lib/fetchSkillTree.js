@@ -79,8 +79,17 @@ function fetchSkillTree(connection, job, ext) {
     ];
 
     // add available techs of skill
-    if (ext.techs[skill.id] && skill.spMaxLevel) {
+    if (ext.techs[skill.id]) {
       skill.techs = ext.techs[skill.id];
+    }
+
+    var subId = rs.getInt('_SubSkillTableID');
+    if (subId) {
+      if (skill.alts) {
+        skill.alts.push(subId);
+      } else {
+        skill.alts = [subId];
+      }
     }
 
     // add to list of alts to get

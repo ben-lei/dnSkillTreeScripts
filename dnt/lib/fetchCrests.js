@@ -20,7 +20,8 @@ function fetchCrests(connection, job) {
 
 
   while (rs.next()) {
-    const id = rs.getString('_SkillID').split(';')[0];
+    const id = rs.getInt('_SkillID');
+
     const descriptionId = rs.getInt('_DescriptionID');
     const descriptionParams = rs.getString('_DescriptionIDParam');
     const descriptionParamsMessageIds = getParamMessageIds(descriptionParams);

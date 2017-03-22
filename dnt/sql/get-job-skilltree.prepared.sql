@@ -14,6 +14,7 @@ SELECT (j._JobNumber + t._AwakenForceLevel) as _JobIndex,
     s._BaseSkillID, -- grouping of skill
     FLOOR(s._GlobalCoolTimePvP / 1000) as _GlobalCoolTimePvP,
     FLOOR(s._GlobalCoolTimePvE / 1000) as _GlobalCoolTimePvE,
+    t._SubSkillTableID,
     s._SkillGroup,
     t._TreeSlotIndex,
     t._NeedBasicSP1,
