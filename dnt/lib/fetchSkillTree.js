@@ -16,7 +16,6 @@ function fetchSkillTree(connection, job, ext) {
   const rs = pstmt.executeQuery();
 
   let skillIds = [];
-  let altSkillIds = [];
 
   while (rs.next()) {
     const jobIndex = rs.getInt('_JobIndex');
@@ -86,9 +85,6 @@ function fetchSkillTree(connection, job, ext) {
 
     // add to list of alts to get
     skillIds.push(skill.id);
-    if (skill.alts) {
-      altSkillIds = altSkillIds.concat(skill.alts);
-    }
 
     // setup skill tree
     if (!job.tree[jobIndex]) {
@@ -103,7 +99,8 @@ function fetchSkillTree(connection, job, ext) {
 
   pstmt.close();
 
-  skillIds = skillIds.concat(fillAltSkills(connection, job, ext, altSkillIds));
+
+  skillIds = skillIds.concat(fillAltSkills(connection, job, ext, fetchChangeSkills(connection, job)));
 
   removeUnrelatedSkills(job.skills, 'related');
   removeUnrelatedSkills(job.skills, 'alts');
