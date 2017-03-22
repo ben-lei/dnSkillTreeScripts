@@ -9,6 +9,10 @@
  * @returns []
  */
 function fillAltSkills(connection, job, ext, altSkillIds) {
+  if (!altSkillIds.length) { // no alts were provided
+    return [];
+  }
+
   const startTime = System.currentTimeMillis();
   print("    fillAltSkills(${job.ascendancies[2].slug}) - started");
 

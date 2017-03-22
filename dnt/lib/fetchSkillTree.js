@@ -78,13 +78,10 @@ function fetchSkillTree(connection, job, ext) {
       skill.techs = ext.techs[skill.id];
     }
 
-    var subId = rs.getInt('_SubSkillTableID');
+    const subId = rs.getInt('_SubSkillTableID');
     if (subId) {
-      if (skill.alts) {
-        skill.alts.push(subId);
-      } else {
-        skill.alts = [subId];
-      }
+      skill.sub = subId;
+      skill.subReq = rs.getInt('_SkillConditionID');
     }
 
     // add to list of alts to get
@@ -110,6 +107,9 @@ function fetchSkillTree(connection, job, ext) {
 
   removeUnrelatedSkills(job.skills, 'related');
   removeUnrelatedSkills(job.skills, 'alts');
+
+  // cleanup sub skills + add to list of skill ids for filling skill levels
+  skillIds = skillIds.concat(fillAltSkills(connection, job, ext, cleanupSubs(job.skills)));
 
   fillSkillLevels(connection, job, job, skillIds);
 
