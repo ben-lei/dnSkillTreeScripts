@@ -4,11 +4,11 @@
  *
  * @param connection the jdbc connection
  * @param job the job object
- * @param data the skill tree data object
+ * @param ext the ext data object
  * @param altSkillIds the list of alternative skill ids
  * @returns []
  */
-function fillAltSkills(connection, job, data, altSkillIds) {
+function fillAltSkills(connection, job, ext, altSkillIds) {
   const startTime = System.currentTimeMillis();
   print("    fillAltSkills(${job.ascendancies[2].slug}) - started");
 
@@ -24,10 +24,10 @@ function fillAltSkills(connection, job, data, altSkillIds) {
   const rs = pstmt.executeQuery();
 
   while (rs.next()) {
-    const skill = mapSkill(rs);
+    const skill = mapSkill(rs, job, ext);
 
-    data.messages.push(skill.name);
-    data.skills[skill.id] = skill;
+    job.messages.push(skill.name);
+    job.skills[skill.id] = skill;
 
     skillIds.push(skill.id);
   }

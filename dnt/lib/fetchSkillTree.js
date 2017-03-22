@@ -23,7 +23,6 @@ function fetchSkillTree(connection, job, ext) {
     const treeSlotIndex = rs.getInt('_TreeSlotIndex');
     const base = rs.getInt('_BaseSkillID');
     const group = rs.getInt('_SkillGroup');
-    const weapons = [rs.getInt('_NeedWeaponType1'), rs.getInt('_NeedWeaponType2')].filter(notNeg1);
     const parents = [
       { id: rs.getInt('_ParentSkillID1'), level: rs.getInt('_NeedParentSkillLevel1') },
       { id: rs.getInt('_ParentSkillID2'), level: rs.getInt('_NeedParentSkillLevel2') },
@@ -31,7 +30,7 @@ function fetchSkillTree(connection, job, ext) {
     ].filter(idNot0);
     const alts = rs.getString('_ChangeSkill').split(';').filter(self).filter(not0).map(toInt);
     const related = rs.getString('_TreeSkill').split(';').filter(self).filter(not0).map(toInt);
-    const skill = mapSkill(rs);
+    const skill = mapSkill(rs, job, ext);
 
     skill.maxLevel = rs.getInt('_MaxLevel');
     skill.spMaxLevel = rs.getInt('_SPMaxLevel');
@@ -48,10 +47,6 @@ function fetchSkillTree(connection, job, ext) {
 
     if (group) {
       skill.group = group;
-    }
-
-    if (weapons.length) {
-      skill.weapons = weapons;
     }
 
     if (parents.length) {
@@ -98,14 +93,6 @@ function fetchSkillTree(connection, job, ext) {
       altSkillIds = altSkillIds.concat(skill.alts);
     }
 
-    // add weapons for this job
-    weapons.forEach(function (type) {
-      if (!job.weapons[type]) {
-        job.weapons[type] = ext.weapons[type];
-        job.messages.push(ext.weapons[type]);
-      }
-    });
-
     // setup skill tree
     if (!job.tree[jobIndex]) {
       job.tree[jobIndex] = [];
@@ -119,7 +106,7 @@ function fetchSkillTree(connection, job, ext) {
 
   pstmt.close();
 
-  skillIds = skillIds.concat(fillAltSkills(connection, job, job, altSkillIds));
+  skillIds = skillIds.concat(fillAltSkills(connection, job, ext, altSkillIds));
 
   removeUnrelatedSkills(job.skills, 'related');
   removeUnrelatedSkills(job.skills, 'alts');

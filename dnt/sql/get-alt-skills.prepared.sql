@@ -2,6 +2,8 @@ SELECT
     j._JobNumber,
     s.ID as _SkillID,
     s._NameID,
+    s._NeedWeaponType1,
+    s._NeedWeaponType2,
     s._SkillType,
     s._DurationType, -- instant, buff, debuff, ex
     s._Element,
